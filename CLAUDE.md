@@ -54,6 +54,14 @@ Headless WordPress starter using Next.js 16 App Router with TypeScript.
 - `CartDrawer` component for slide-out cart preview
 - Cart state: items array with `{ productId, variationId?, quantity, name, price, image }`
 
+### Checkout & Payment Flow
+- User fills billing form on `/checkout`
+- Order created in WooCommerce via `/api/checkout` (unpaid)
+- User redirected to `order.payment_url` (WooCommerce checkout)
+- Payment handled by WooCommerce's configured gateway (Stripe, PayPal, etc.)
+- After payment, WooCommerce redirects to `/checkout/success`
+- Cart cleared on success page load
+
 ### Configuration Files
 - `site.config.ts` - Site metadata (domain, name, description)
 - `menu.config.ts` - Navigation menu structure
@@ -86,11 +94,9 @@ WORDPRESS_WEBHOOK_SECRET="secret-key"     # Webhook validation
 # WooCommerce (required for shop functionality)
 WC_CONSUMER_KEY="ck_xxx"                  # WooCommerce REST API consumer key
 WC_CONSUMER_SECRET="cs_xxx"               # WooCommerce REST API consumer secret
-
-# Optional: Payment integration
-STRIPE_PUBLISHABLE_KEY="pk_xxx"           # Stripe publishable key
-STRIPE_SECRET_KEY="sk_xxx"                # Stripe secret key
 ```
+
+Note: Payment processing is configured in WooCommerce admin, not in Next.js.
 
 ## Key Dependencies
 - Next.js 16 with React 19
