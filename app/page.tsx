@@ -11,7 +11,6 @@ import {
   Layers,
   Pen,
   User,
-  Package,
   CreditCard,
   Folder,
   Tag,
@@ -99,31 +98,19 @@ export default function Home() {
               </span>
             </Link>
 
-            {/* Account Links */}
-            <Link
+            {/* Account Link - WooCommerce */}
+            <a
               className="border h-48 bg-accent/50 rounded-lg p-4 flex flex-col justify-between hover:scale-[1.02] transition-all"
-              href="/account"
+              href={`${process.env.NEXT_PUBLIC_WORDPRESS_URL}/my-account`}
             >
               <User size={32} />
               <span>
-                Account
+                My Account
                 <span className="block text-sm text-muted-foreground">
-                  Manage your account
+                  Login, orders, and settings
                 </span>
               </span>
-            </Link>
-            <Link
-              className="border h-48 bg-accent/50 rounded-lg p-4 flex flex-col justify-between hover:scale-[1.02] transition-all"
-              href="/account/orders"
-            >
-              <Package size={32} />
-              <span>
-                Orders
-                <span className="block text-sm text-muted-foreground">
-                  View order history
-                </span>
-              </span>
-            </Link>
+            </a>
             <Link
               className="border h-48 bg-accent/50 rounded-lg p-4 flex flex-col justify-between hover:scale-[1.02] transition-all"
               href="/posts/categories"
