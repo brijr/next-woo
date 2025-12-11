@@ -11,9 +11,7 @@ A headless WooCommerce storefront built with Next.js 16, React 19, and TypeScrip
 
 - [Features](#features)
 - [What's Included](#whats-included)
-- [Quick Start](#quick-start)
-- [Environment Variables](#environment-variables)
-- [WooCommerce Setup](#woocommerce-setup)
+- [Setup](#setup)
 - [Architecture](#architecture)
 - [API Functions](#api-functions)
 - [Customization](#customization)
@@ -52,29 +50,23 @@ Instead of building custom Stripe integration and authentication:
 - **Simplicity** - No auth infrastructure to maintain
 - **Battle-tested** - WooCommerce's checkout is proven at scale
 
-## Quick Start
+## Setup
+
+### Step 1: Clone & Install
 
 ```bash
-# Clone the repository
 git clone https://github.com/brijr/next-woo.git
 cd next-woo
-
-# Install dependencies
 pnpm install
-
-# Set up environment variables
-cp .env.example .env.local
-# Edit .env.local with your WordPress/WooCommerce credentials
-
-# Start development server
-pnpm dev
 ```
 
-Your site is now running at `http://localhost:3000`.
+### Step 2: Environment Variables
 
-## Environment Variables
+```bash
+cp .env.example .env.local
+```
 
-Create a `.env.local` file:
+Edit `.env.local` with your credentials:
 
 ```bash
 # WordPress/WooCommerce Site
@@ -82,40 +74,45 @@ WORDPRESS_URL="https://your-wordpress-site.com"
 WORDPRESS_HOSTNAME="your-wordpress-site.com"
 NEXT_PUBLIC_WORDPRESS_URL="https://your-wordpress-site.com"
 
-# Webhook secret for cache revalidation
+# Webhook secret (generate with: openssl rand -base64 32)
 WORDPRESS_WEBHOOK_SECRET="your-secret-key-here"
 
-# WooCommerce REST API credentials
-# Generate in: WooCommerce > Settings > Advanced > REST API
+# WooCommerce API (Step 3)
 WC_CONSUMER_KEY="ck_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 WC_CONSUMER_SECRET="cs_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 ```
 
-## WooCommerce Setup
-
-### 1. Generate API Credentials
+### Step 3: WooCommerce API Credentials
 
 1. Go to **WooCommerce → Settings → Advanced → REST API**
 2. Click **Add Key**
 3. Set permissions to **Read/Write**
-4. Copy the Consumer Key and Consumer Secret to your `.env.local`
+4. Copy Consumer Key and Consumer Secret to `.env.local`
 
-### 2. Configure Payment Gateway
+### Step 4: Payment Gateway
 
-Payment is handled by WooCommerce's native checkout. Configure your payment gateway (Stripe, PayPal, etc.) in **WooCommerce → Settings → Payments**.
+Configure your payment gateway in **WooCommerce → Settings → Payments**.
 
-**Important:** Set the return URL in your payment gateway settings to redirect back to your Next.js domain:
+**Important:** Set the return URL to redirect back to your Next.js site after payment:
 ```
 https://your-nextjs-site.com/checkout/success
 ```
 
-### 3. Install Revalidation Plugin
+### Step 5: Revalidation Plugin (Optional)
 
 For automatic cache updates when products change:
 
 1. Download [next-revalidate.zip](https://github.com/9d8dev/next-wp/releases/latest/download/next-revalidate.zip)
 2. Upload to WordPress via **Plugins → Add New → Upload**
-3. Activate and configure in **Settings → Next.js Revalidation**
+3. Configure in **Settings → Next.js Revalidation** with your Next.js URL and webhook secret
+
+### Step 6: Run Development Server
+
+```bash
+pnpm dev
+```
+
+Your site is now running at `http://localhost:3000`.
 
 ## Architecture
 
